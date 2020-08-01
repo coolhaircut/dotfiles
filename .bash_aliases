@@ -59,21 +59,20 @@ alias disk-uuid="blkid -o value -s UUID"
 alias diskuuid="disk-uuid"
 alias du="${sudo}du -sh"
 alias free="free -ht"
-alias iotop="${sudo}iotop -Poa"
+alias iotop='${sudo}iotop -Poa'
 alias lsblk="${sudo} lsblk -o NAME,MAJ:MIN,RM,SIZE,TYPE,FSTYPE,LABEL,MOUNTPOINT -e 7"
 
 ## Misc
 alias entropy="cat /proc/sys/kernel/random/entropy_avail"
-alias ffprobe="ffprobe -hide_banner -loglevel 32"
-alias ffmeta="ffmeta -hide_banner -loglevel 32 -filter_threads 4"
-alias graph="git log --all --decorate --oneline --graph"
-alias jp2a="jp2a --colors --color-depth=8 --term-fit --background=dark"
+alias ffprobe='ffprobe -hide_banner -loglevel 32'
+alias ffmeta='ffmeta -hide_banner -loglevel 32 -filter_threads 4'
+alias graph='git log --all --decorate --oneline --graph'
+alias jp2a='jp2a --colors --color-depth=8 --term-fit --background=dark'
 alias kb="keybase"
-## mkpasswd using random 16 char salt and first supported method
-alias mkpw="mkpasswd -m $(mkpasswd -m help | head -n2 | tail -n1 | cut -f1 -d' ') -S $(head -c 12 /dev/random | base64 | sed 's/[-=+]/x/g')"
-alias mkuuid="/usr/bin/uuid -m -v4"
+alias mkpasswd='/usr/bin/mkpasswd.pl -n -l 16'
+alias mkuuid='/usr/bin/uuid -m -v4'
 alias shutdown="${sudo}shutdown"
-alias youtube-dl="youtube-dl --no-call-home --verbose --prefer-ffmpeg --add-metadata -i --continue"
+alias youtube-dl='youtube-dl --no-call-home --verbose --prefer-ffmpeg --add-metadata -i --continue'
 
 ## IP addr/link/netfilter as root
 alias ip="${sudo}ip"
@@ -94,7 +93,7 @@ alias ls="ls --color=auto"
 alias ll="ls -lAFh"
 alias la="ls -A"
 alias l="la"
-alias ls="ls -AC"
+alias ls="ls -AC --color=auto"
 
 ## Netplan.io as root
 alias netplan="${sudo}netplan"
@@ -111,7 +110,7 @@ function scbanish {
     sudo -sH systemctl disable "$1";
     sudo -sH killall "$1";
 }
-alias scb="scbanish"
+alias scb='scbanish'
 alias sc="${sudo}systemctl"
 alias scdown="sc stop"
 alias scup="sc start"
@@ -131,7 +130,7 @@ alias mkdircd="mkcd"
 alias cdmkdir="mkcd"
 alias cdmk="mkcd"
 alias warp='cd "$(realpath .)"'
-alias g="goto"
+alias g='goto'
 
 ## Colors
 export NOCOLOR='\033[0m'
