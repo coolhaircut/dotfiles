@@ -7,7 +7,7 @@
 #                                                                             #
 # The $sudo var can be used in aliases that want to automatically sudo.       #
 #                                                                             #
-# "$sudo" equals 'sudo -sH ' (trailing space) if the following conditions are #
+# "$sudo" equals 'sudo ' (trailing space) if the following conditions are #
 # met; if any of these conditions fail, then "$sudo" equals an empty string.  #
 #    (1) If the calling user is not root (redundant), AND                     #
 #    (2) If the current directory is not a keybase mount (permissions), AND   #
@@ -17,7 +17,7 @@
 if [ $EUID -eq 0 ] || [[ "$(pwd)" =~ keybase|/run/user/[0-9]+/ ]]; then
     export sudo=''
 else
-    export sudo='sudo -sH '
+    export sudo='sudo '
 fi
 
 ###############################################################################
@@ -28,7 +28,7 @@ fi
 alias apt-get="${sudo}apt-get"
 alias apt-key="${sudo}apt-key"
 alias apt="${sudo}apt"
-alias pip3="${sudo}pip3"
+alias pip="python3 -m pip"
 alias snap="${sudo}snap"
 alias update-initramfs="${sudo}update-initramfs -uv"
 alias update-grub="${sudo}update-grub"
@@ -65,7 +65,7 @@ alias lsblk="${sudo} lsblk -o NAME,MAJ:MIN,RM,SIZE,TYPE,FSTYPE,LABEL,MOUNTPOINT 
 ## Misc
 alias entropy="cat /proc/sys/kernel/random/entropy_avail"
 alias ffprobe='ffprobe -hide_banner -loglevel 32'
-alias ffmeta='ffmeta -hide_banner -loglevel 32 -filter_threads 4'
+alias ffmeta='ffmeta -hide_banner -loglevel 32 -filter_threads $(nproc)'
 alias graph='git log --all --decorate --oneline --graph'
 alias jp2a='jp2a --colors --color-depth=8 --term-fit --background=dark'
 alias kb="keybase"
@@ -83,10 +83,12 @@ alias iptables-save="${sudo}iptables-save"
 alias ip6tables-save="${sudo}ip6tables-save"
 alias iptables-restore="${sudo}iptables-restore"
 alias ip6tables-restore="${sudo}ip6tables-restore"
+alias iptables-apply="${sudo}iptables-restore"
+alias ip6tables-apply="${sudo}ip6tables-restore"
 
 ## Process misc
 alias killall="${sudo}killall"
-alias top="top -o '%CPU'"
+alias top="${sudo}top -o '%CPU'"
 
 ## List files
 alias ls="ls --color=auto"
@@ -105,10 +107,10 @@ alias netstatl="netstat -l"
 
 ## Systemd shortcuts
 function scbanish {
-    sudo -sH systemctl stop "$1";
-    sudo -sH systemctl stop "${1}.socket";
-    sudo -sH systemctl disable "$1";
-    sudo -sH killall "$1";
+    sudo systemctl stop "$1";
+    sudo systemctl stop "${1}.socket";
+    sudo systemctl disable "$1";
+    sudo killall "$1";
 }
 alias scb='scbanish'
 alias sc="${sudo}systemctl"
@@ -133,7 +135,7 @@ alias warp='cd "$(realpath .)"'
 alias g='goto'
 
 ## Colors
-export NOCOLOR='\033[0m'
+export RESET=NOCOLOR='\033[0m'
 export RED='\033[0;31m'
 export GREEN='\033[0;32m'
 export ORANGE='\033[0;33m'
